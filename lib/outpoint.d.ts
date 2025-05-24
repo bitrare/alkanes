@@ -50,3 +50,15 @@ export declare function decodeAlkanesIdToOutpointResponse(hex: string): {
         vout: number;
     };
 };
+export declare function encodeHoldersByTokenInput(block: bigint, tx: bigint): string;
+export declare function decodeHoldersByTokenResponse(hex: string): {
+    holders: {
+        address: string;
+        totalBalance: bigint;
+        outpoints: {
+            txid: string;
+            vout: number;
+            balance: bigint;
+        }[];
+    }[];
+};

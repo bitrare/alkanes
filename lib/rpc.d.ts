@@ -67,6 +67,20 @@ export declare class AlkanesRpc extends BaseRpc {
             vout: number;
         };
     }>;
+    holdersbytoken({ block, tx }: {
+        block: bigint;
+        tx: bigint;
+    }, blockTag?: BlockTag): Promise<{
+        holders: {
+            address: string;
+            totalBalance: bigint;
+            outpoints: {
+                txid: string;
+                vout: number;
+                balance: bigint;
+            }[];
+        }[];
+    }>;
     traceblock({ block }: {
         block: number | bigint;
     }, blockTag?: BlockTag): Promise<any>;

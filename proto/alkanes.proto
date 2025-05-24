@@ -143,3 +143,23 @@ message TraceBlockRequest {
 message TraceBlockResponse {
   repeated Trace traces = 1;
 }
+
+message HoldersByTokenRequest {
+  AlkaneId token_id = 1;
+}
+
+message HolderOutpoint {
+  bytes txid = 1;
+  uint32 vout = 2;
+  uint128 balance = 3;
+}
+
+message TokenHolder {
+  string address = 1;
+  uint128 total_balance = 2;
+  repeated HolderOutpoint outpoints = 3;
+}
+
+message HoldersByTokenResponse {
+  repeated TokenHolder holders = 1;
+}

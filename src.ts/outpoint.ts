@@ -200,3 +200,42 @@ export function decodeAlkanesIdToOutpointResponse(hex: string) {
     },
   };
 }
+
+export function encodeHoldersByTokenInput(
+  block: bigint,
+  tx: bigint
+): string {
+  const alkane_id = new alkanes_protobuf.AlkaneId({
+    block: toUint128(block),
+    tx: toUint128(tx),
+  });
+  const str = Buffer.from(
+    new alkanes_protobuf.HoldersByTokenRequest({
+      token_id: alkane_id,
+    }).serializeBinary()
+  ).toString("hex");
+  return "0x" + str;
+}
+
+export function decodeHoldersByTokenResponse(hex: string) {
+  if (!hex || hex === "0x") {
+    return { holders: [] };
+  }
+  const buffer = Buffer.from(stripHexPrefix(hex), "hex");
+  if (buffer.length === 0) {
+    return { holders: [] };
+  }
+  const response =
+    alkanes_protobuf.HoldersByTokenResponse.deserializeBinary(buffer);
+  return {
+    holders: response.holders.map(holder => ({
+      address: holder.address,
+      totalBalance: fromUint128(holder.total_balance),
+      outpoints: holder.outpoints.map(outpoint => ({
+        txid: Buffer.from(outpoint.txid).toString("hex"),
+        vout: outpoint.vout,
+        balance: fromUint128(outpoint.balance),
+      })),
+    })),
+  };
+}

@@ -10,6 +10,8 @@ import {
   encodeAlkanesIdToOutpointInput,
   encodeBlockHeightInput,
   encodeProtorunesByHeightInput,
+  encodeHoldersByTokenInput,
+  decodeHoldersByTokenResponse,
 } from "./outpoint";
 import { BaseRpc } from "./base-rpc";
 import { protorune as protobuf } from "./proto/protorune";
@@ -212,6 +214,22 @@ export class AlkanesRpc extends BaseRpc {
       blockTag
     );
     const decodedResponse = decodeAlkanesIdToOutpointResponse(response);
+    return decodedResponse;
+  }
+
+  async holdersbytoken(
+    { block, tx }: { block: bigint; tx: bigint },
+    blockTag: BlockTag = "latest"
+  ) {
+    const payload = encodeHoldersByTokenInput(block, tx);
+    const response = await this._call(
+      {
+        method: "alkanes_holdersbytoken",
+        input: payload,
+      },
+      blockTag
+    );
+    const decodedResponse = decodeHoldersByTokenResponse(response);
     return decodedResponse;
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "alkanes",
   "description": "alkanes metaprotocol",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": {
     "alkanes": "lib/esm/alkanes.js"
   },
